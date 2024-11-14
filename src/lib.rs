@@ -170,6 +170,7 @@ mod non_zero;
 mod traits;
 mod uint;
 mod wrapping;
+mod zisk;
 
 pub use crate::{
     checked::Checked,

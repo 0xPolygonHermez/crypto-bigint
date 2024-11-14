@@ -12,7 +12,7 @@ const WINDOW_MASK: Word = (1 << WINDOW) - 1;
 /// `exponent_bits` represents the number of bits to take into account for the exponent.
 ///
 /// NOTE: this value is leaked in the time pattern.
-pub const fn pow_montgomery_form<const LIMBS: usize, const RHS_LIMBS: usize>(
+pub fn pow_montgomery_form<const LIMBS: usize, const RHS_LIMBS: usize>(
     x: &Uint<LIMBS>,
     exponent: &Uint<RHS_LIMBS>,
     exponent_bits: usize,
@@ -29,7 +29,7 @@ pub const fn pow_montgomery_form<const LIMBS: usize, const RHS_LIMBS: usize>(
     )
 }
 
-pub const fn multi_exponentiate_montgomery_form_array<
+pub fn multi_exponentiate_montgomery_form_array<
     const LIMBS: usize,
     const RHS_LIMBS: usize,
     const N: usize,
@@ -96,7 +96,7 @@ pub fn multi_exponentiate_montgomery_form_slice<const LIMBS: usize, const RHS_LI
     )
 }
 
-const fn compute_powers<const LIMBS: usize>(
+fn compute_powers<const LIMBS: usize>(
     x: &Uint<LIMBS>,
     modulus: &Uint<LIMBS>,
     r: &Uint<LIMBS>,
@@ -115,7 +115,7 @@ const fn compute_powers<const LIMBS: usize>(
     powers
 }
 
-const fn multi_exponentiate_montgomery_form_internal<const LIMBS: usize, const RHS_LIMBS: usize>(
+fn multi_exponentiate_montgomery_form_internal<const LIMBS: usize, const RHS_LIMBS: usize>(
     powers_and_exponents: &[([Uint<LIMBS>; 1 << WINDOW], Uint<RHS_LIMBS>)],
     exponent_bits: usize,
     modulus: &Uint<LIMBS>,

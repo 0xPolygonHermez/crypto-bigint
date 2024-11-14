@@ -4,7 +4,7 @@ use super::{Residue, ResidueParams};
 
 impl<MOD: ResidueParams<LIMBS>, const LIMBS: usize> Residue<MOD, LIMBS> {
     /// Negates the number.
-    pub const fn neg(&self) -> Self {
+    pub fn neg(&self) -> Self {
         Self::ZERO.sub(self)
     }
 }

@@ -10,7 +10,7 @@ impl<const LIMBS: usize> Uint<LIMBS> {
         since = "0.5.3",
         note = "This functionality will be moved to `sqrt_vartime` in a future release."
     )]
-    pub const fn sqrt(&self) -> Self {
+    pub fn sqrt(&self) -> Self {
         self.sqrt_vartime()
     }
 
@@ -18,7 +18,7 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     /// Uses Brent & Zimmermann, Modern Computer Arithmetic, v0.5.9, Algorithm 1.13
     ///
     /// Callers can check if `self` is a square by squaring the result
-    pub const fn sqrt_vartime(&self) -> Self {
+    pub fn sqrt_vartime(&self) -> Self {
         let max_bits = (self.bits_vartime() + 1) >> 1;
         let cap = Self::ONE.shl_vartime(max_bits);
         let mut guess = cap; // ≥ √(`self`)
@@ -61,14 +61,14 @@ impl<const LIMBS: usize> Uint<LIMBS> {
         since = "0.5.3",
         note = "This functionality will be moved to `wrapping_sqrt_vartime` in a future release."
     )]
-    pub const fn wrapping_sqrt(&self) -> Self {
+    pub fn wrapping_sqrt(&self) -> Self {
         self.wrapping_sqrt_vartime()
     }
 
     /// Wrapped sqrt is just normal √(`self`)
     /// There’s no way wrapping could ever happen.
     /// This function exists, so that all operations are accounted for in the wrapping operations.
-    pub const fn wrapping_sqrt_vartime(&self) -> Self {
+    pub fn wrapping_sqrt_vartime(&self) -> Self {
         self.sqrt_vartime()
     }
 

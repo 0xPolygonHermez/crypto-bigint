@@ -77,7 +77,7 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     /// **Note:** variable time in `bits` and `modulus_bits`.
     ///
     /// The algorithm is the same as in GMP 6.2.1's `mpn_sec_invert`.
-    pub const fn inv_odd_mod_bounded(
+    pub fn inv_odd_mod_bounded(
         &self,
         modulus: &Self,
         bits: usize,
@@ -139,14 +139,14 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     /// Computes the multiplicative inverse of `self` mod `modulus`, where `modulus` is odd.
     /// Returns `(inverse, CtChoice::TRUE)` if an inverse exists,
     /// otherwise `(undefined, CtChoice::FALSE)`.
-    pub const fn inv_odd_mod(&self, modulus: &Self) -> (Self, CtChoice) {
+    pub fn inv_odd_mod(&self, modulus: &Self) -> (Self, CtChoice) {
         self.inv_odd_mod_bounded(modulus, Uint::<LIMBS>::BITS, Uint::<LIMBS>::BITS)
     }
 
     /// Computes the multiplicative inverse of `self` mod `modulus`.
     /// Returns `(inverse, CtChoice::TRUE)` if an inverse exists,
     /// otherwise `(undefined, CtChoice::FALSE)`.
-    pub const fn inv_mod(&self, modulus: &Self) -> (Self, CtChoice) {
+    pub fn inv_mod(&self, modulus: &Self) -> (Self, CtChoice) {
         // Decompose `modulus = s * 2^k` where `s` is odd
         let k = modulus.trailing_zeros();
         let s = modulus.shr(k);

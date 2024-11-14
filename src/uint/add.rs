@@ -7,7 +7,16 @@ use subtle::CtOption;
 impl<const LIMBS: usize> Uint<LIMBS> {
     /// Computes `a + b + carry`, returning the result along with the new carry.
     #[inline(always)]
-    pub const fn adc(&self, rhs: &Self, mut carry: Limb) -> (Self, Limb) {
+    pub fn adc(&self, rhs: &Self, mut carry: Limb) -> (Self, Limb) {
+        #[cfg(all(
+            target_os = "ziskos",
+            target_vendor = "polygon",
+            target_arch = "riscv64"
+        ))]
+        if LIMBS == crate::zisk::ZISK_U256_WORDS {
+            return crate::zisk::adc(self, rhs, carry);
+        }
+
         let mut limbs = [Limb::ZERO; LIMBS];
         let mut i = 0;
 
@@ -22,19 +31,19 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     }
 
     /// Perform saturating addition, returning `MAX` on overflow.
-    pub const fn saturating_add(&self, rhs: &Self) -> Self {
+    pub fn saturating_add(&self, rhs: &Self) -> Self {
         let (res, overflow) = self.adc(rhs, Limb::ZERO);
         Self::ct_select(&res, &Self::MAX, CtChoice::from_lsb(overflow.0))
     }
 
     /// Perform wrapping addition, discarding overflow.
-    pub const fn wrapping_add(&self, rhs: &Self) -> Self {
+    pub fn wrapping_add(&self, rhs: &Self) -> Self {
         self.adc(rhs, Limb::ZERO).0
     }
 
     /// Perform wrapping addition, returning the truthy value as the second element of the tuple
     /// if an overflow has occurred.
-    pub(crate) const fn conditional_wrapping_add(
+    pub(crate) fn conditional_wrapping_add(
         &self,
         rhs: &Self,
         choice: CtChoice,

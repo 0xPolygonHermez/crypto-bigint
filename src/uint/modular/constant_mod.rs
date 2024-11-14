@@ -88,7 +88,7 @@ impl<MOD: ResidueParams<LIMBS>, const LIMBS: usize> Residue<MOD, LIMBS> {
     };
 
     // Internal helper function to generate a residue; this lets us wrap the constructors more cleanly
-    const fn generate_residue(integer: &Uint<LIMBS>) -> Self {
+    fn generate_residue(integer: &Uint<LIMBS>) -> Self {
         let product = integer.mul_wide(&MOD::R2);
         let montgomery_form =
             montgomery_reduction::<LIMBS>(&product, &MOD::MODULUS, MOD::MOD_NEG_INV);
@@ -101,7 +101,7 @@ impl<MOD: ResidueParams<LIMBS>, const LIMBS: usize> Residue<MOD, LIMBS> {
 
     /// Instantiates a new `Residue` that represents this `integer` mod `MOD`.
     /// If the modulus represented by `MOD` is not odd, this function will panic; use [`new_checked`][`Residue::new_checked`] if you want to be able to detect an invalid modulus.
-    pub const fn new(integer: &Uint<LIMBS>) -> Self {
+    pub fn new(integer: &Uint<LIMBS>) -> Self {
         // A valid modulus must be odd
         if MOD::MODULUS.ct_is_odd().to_u8() == 0 {
             panic!("modulus must be odd");
@@ -123,7 +123,7 @@ impl<MOD: ResidueParams<LIMBS>, const LIMBS: usize> Residue<MOD, LIMBS> {
     }
 
     /// Retrieves the integer currently encoded in this `Residue`, guaranteed to be reduced.
-    pub const fn retrieve(&self) -> Uint<LIMBS> {
+    pub fn retrieve(&self) -> Uint<LIMBS> {
         montgomery_reduction::<LIMBS>(
             &(self.montgomery_form, Uint::ZERO),
             &MOD::MODULUS,

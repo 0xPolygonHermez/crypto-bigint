@@ -6,7 +6,7 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     /// Computes `self - rhs mod p`.
     ///
     /// Assumes `self - rhs` as unbounded signed integer is in `[-p, p)`.
-    pub const fn sub_mod(&self, rhs: &Uint<LIMBS>, p: &Uint<LIMBS>) -> Uint<LIMBS> {
+    pub fn sub_mod(&self, rhs: &Uint<LIMBS>, p: &Uint<LIMBS>) -> Uint<LIMBS> {
         let (out, borrow) = self.sbb(rhs, Limb::ZERO);
 
         // If underflow occurred on the final limb, borrow = 0xfff...fff, otherwise
@@ -19,7 +19,7 @@ impl<const LIMBS: usize> Uint<LIMBS> {
     /// Returns `(self..., carry) - (rhs...) mod (p...)`, where `carry <= 1`.
     /// Assumes `-(p...) <= (self..., carry) - (rhs...) < (p...)`.
     #[inline(always)]
-    pub(crate) const fn sub_mod_with_carry(&self, carry: Limb, rhs: &Self, p: &Self) -> Self {
+    pub(crate) fn sub_mod_with_carry(&self, carry: Limb, rhs: &Self, p: &Self) -> Self {
         debug_assert!(carry.0 <= 1);
 
         let (out, borrow) = self.sbb(rhs, Limb::ZERO);

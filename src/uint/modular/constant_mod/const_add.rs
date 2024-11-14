@@ -6,7 +6,7 @@ use super::{Residue, ResidueParams};
 
 impl<MOD: ResidueParams<LIMBS>, const LIMBS: usize> Residue<MOD, LIMBS> {
     /// Adds `rhs`.
-    pub const fn add(&self, rhs: &Residue<MOD, LIMBS>) -> Self {
+    pub fn add(&self, rhs: &Residue<MOD, LIMBS>) -> Self {
         Self {
             montgomery_form: add_montgomery_form(
                 &self.montgomery_form,

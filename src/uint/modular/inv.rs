@@ -1,6 +1,6 @@
 use crate::{modular::reduction::montgomery_reduction, CtChoice, Limb, Uint};
 
-pub const fn inv_montgomery_form<const LIMBS: usize>(
+pub fn inv_montgomery_form<const LIMBS: usize>(
     x: &Uint<LIMBS>,
     modulus: &Uint<LIMBS>,
     r3: &Uint<LIMBS>,

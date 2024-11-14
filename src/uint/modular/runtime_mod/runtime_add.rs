@@ -6,7 +6,7 @@ use super::DynResidue;
 
 impl<const LIMBS: usize> DynResidue<LIMBS> {
     /// Adds `rhs`.
-    pub const fn add(&self, rhs: &Self) -> Self {
+    pub fn add(&self, rhs: &Self) -> Self {
         Self {
             montgomery_form: add_montgomery_form(
                 &self.montgomery_form,
